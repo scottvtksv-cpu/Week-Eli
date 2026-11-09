@@ -1,7 +1,7 @@
 
 # De week van Eli — vaste regels
 
-Weekoverzicht voor de grootouders (MePe, MaPie). Gepubliceerd op GitHub Pages, vaste link: https://scottvtksv-cpu.github.io/Eli-Week/ (bestand index.html in de repository scottvtksv-cpu/Eli-Week). Wordt elke avond om 20u nagekeken door een routine; als de inhoud van de drie weken veranderd is (of op zondag, als de week verschuift), overschrijft ze index.html en pusht ze. Geen wijziging = geen publicatie. De vroegere Artifact-pagina (claude.ai/code/artifact/d4f2f3d1-…) is enkel nog reserve; publiek gedeelde artifacts staan vast op één versie.
+Weekoverzicht voor de grootouders (MePe, MaPie). Gepubliceerd op GitHub Pages, vaste link: https://scottvtksv-cpu.github.io/Week-Eli/ (bestand index.html in de repository scottvtksv-cpu/Week-Eli). Wordt elke avond om 20u nagekeken door een routine; als de inhoud van de drie weken veranderd is (of op zondag, als de week verschuift), overschrijft ze index.html en pusht ze. Geen wijziging = geen publicatie. De vroegere Artifact-pagina (claude.ai/code/artifact/d4f2f3d1-…) is enkel nog reserve; publiek gedeelde artifacts staan vast op één versie.
 
 ## Inhoud
 
@@ -44,7 +44,7 @@ Weekoverzicht voor de grootouders (MePe, MaPie). Gepubliceerd op GitHub Pages, v
 ## Werkwijze
 
 - Altijd zelf renderen (Playwright, 390 px én 820 px) en de screenshots bekijken vóór publicatie. Geen halfaf versies tonen.
-- Publiceren = index.html in de repository scottvtksv-cpu/Eli-Week overschrijven, committen en pushen naar main (vanuit een Claude Code-sessie waaraan die repository gekoppeld is). Niet meer via de Artifact-tool.
+- Publiceren = index.html in de repository scottvtksv-cpu/Week-Eli overschrijven, committen en pushen naar main (vanuit een Claude Code-sessie waaraan die repository gekoppeld is). Niet meer via de Artifact-tool.
 - Bronagenda's: kimberly.dke@gmail.com én scottvtk.sv@gmail.com. Beide worden elke keer gelezen; samen vormen ze het beeld. Wat op één van de twee staat telt evenveel.
 - Bij onduidelijkheid in de agenda: niet op de pagina zetten, wel melden.
 - Dit bestand (REGELS.md) is de enige bron van de regels voor de wekelijkse update; de Claude-projectdocumenten zijn vanuit een Code-sessie niet bereikbaar. Wijzigingen aan de regels gebeuren hier.

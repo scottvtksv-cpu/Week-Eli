@@ -7,7 +7,7 @@ Onderdelen in de repository:
 | Bestand | Rol |
 |---|---|
 | `REGELS.md` | Wat er wel en niet op de pagina komt, en in welke vorm. Elke ronde opnieuw lezen. |
-| `index.html` | De gepubliceerde pagina (GitHub Pages: https://scottvtksv-cpu.github.io/Eli-Week/). |
+| `index.html` | De gepubliceerde pagina (GitHub Pages: https://scottvtksv-cpu.github.io/Week-Eli/). |
 | `tools/bouw.py` | Zet een JSON met drie weken om naar de HTML van de weekkaarten en zet de stempel. |
 | `tools/render.js` | Rendert op 390 px en 820 px, controleert op horizontale overloop en maakt screenshots. |
 | `tools/voorbeeld-weken.json` | De JSON die de pagina van 2 november 2026 exact oplevert. Handig als voorbeeld. |
