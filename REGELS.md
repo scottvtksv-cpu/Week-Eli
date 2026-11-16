@@ -49,4 +49,8 @@ Weekoverzicht voor de grootouders (MePe, MaPie). Gepubliceerd op GitHub Pages, v
 - Bij onduidelijkheid in de agenda: niet op de pagina zetten, wel melden.
 - Dit bestand (REGELS.md) is de enige bron van de regels voor de wekelijkse update; de Claude-projectdocumenten zijn vanuit een Code-sessie niet bereikbaar. Wijzigingen aan de regels gebeuren hier.
 
+## Analyse en planning rond Elisabeth (vaste instructies, Scott 16/11/2026)
 
+- Noteer bij elke afspraak wie erbij moet zijn en wie de kinderen opvangt. Is dat onduidelijk, meld het dan meteen in plaats van te gissen.
+- Staat er dat een kind "niet nodig" is bij een activiteit, dan is dat nooit opgelost. Het blijft een open punt tot er een concrete naam voor de opvang bij staat.
+- Schuift een ophaling of een avondafspraak in tijd, loop dan het volledige traject na van school tot thuis. Bij twijfel altijd vragen, hoe klein ook.
