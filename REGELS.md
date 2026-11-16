@@ -48,6 +48,7 @@ Weekoverzicht voor de grootouders (MePe, MaPie). Gepubliceerd op GitHub Pages, v
 - Publiceren = index.html in de repository scottvtksv-cpu/Week-Eli overschrijven, committen en pushen naar main (vanuit een Claude Code-sessie waaraan die repository gekoppeld is). Niet meer via de Artifact-tool.
 - Bronagenda's: kimberly.dke@gmail.com én scottvtk.sv@gmail.com. Beide worden elke keer gelezen; samen vormen ze het beeld. Wat op één van de twee staat telt evenveel.
 - Bij onduidelijkheid in de agenda: niet op de pagina zetten, wel melden.
+- Elke avond om 20u kijkt de avondronde proactief na wat er in beide agenda's bijgekomen of veranderd is sinds de vorige ronde. Is iets onduidelijk, of is er na een wijziging iets nodig (wie brengt, wie haalt, wie past op), dan meldt ze dat aan Scott, ook als de pagina zelf niet verandert.
 - Dit bestand (REGELS.md) is de enige bron van de regels voor de wekelijkse update; de Claude-projectdocumenten zijn vanuit een Code-sessie niet bereikbaar. Wijzigingen aan de regels gebeuren hier.
 
 
