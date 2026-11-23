@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<style>body{margin:0;padding:0}img{max-width:100%}</style>
+<title>Advent Eli</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;700;900&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+  :root{
+    color-scheme:light;
+    --ink:#33263c;
+    --ink-soft:#75677f;
+    --ink-faint:#a89bb0;
+    --dash:#d9cde0;
+    --ground:#fdf8fb;
+    --card:#ffffff;
+    --line:#f0e6ee;
+    --weekend:#fbf3f8;
+    --accent:#c2185b;
+    --accent-soft:#fce7f0;
+    --shadow:0 1px 2px rgba(51,38,60,.05), 0 8px 22px rgba(51,38,60,.05);
+  }
+
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+    font-size:17px;
+    line-height:1.45;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{
+    max-width:33rem;
+    margin:0 auto;
+    padding-inline:18px;
+    padding-block:30px 60px;
+    display:flex;
+    flex-direction:column;
+    gap:28px;
+  }
+
+  header{display:flex;flex-direction:column;gap:5px}
+  h1{
+    font-family:"Gabarito", ui-sans-serif, system-ui, sans-serif;
+    font-weight:900;font-size:2.1rem;line-height:1.05;letter-spacing:-.02em;
+    margin:0;text-wrap:balance;
+  }
+  h1 .heart{color:var(--accent)}
+  .sub{color:var(--ink-soft);font-size:.95rem;margin:0}
+
+  .eyebrow{
+    font-family:"Gabarito",sans-serif;font-size:.73rem;font-weight:700;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin:0;
+  }
+
+  .print{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);padding:16px 20px;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .print.today{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft), var(--shadow);
+  }
+  .print h2{
+    font-family:"Gabarito",sans-serif;font-size:1.25rem;font-weight:700;
+    margin:0;letter-spacing:-.01em;
+  }
+  .print p{margin:0}
+  .print ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:6px}
+  .print li::marker{color:var(--accent)}
+
+  a{color:var(--accent);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+  a:hover{text-decoration-thickness:2px}
+
+  .days{display:flex;flex-direction:column;gap:12px}
+  .dayshead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .dayshead h2{font-family:"Gabarito",sans-serif;font-size:1.25rem;font-weight:700;margin:0;letter-spacing:-.01em}
+  .dayshead .range{color:var(--ink-faint);font-size:.88rem;font-variant-numeric:tabular-nums}
+
+  .daycard{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);overflow:hidden;
+    scroll-margin-top:16px;
+  }
+  .daycard.we{background:var(--weekend)}
+  .daycard.today{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft), var(--shadow);
+  }
+  .daycard.done .body{opacity:.72}
+  .daycard.done .opdracht{color:var(--ink-soft);text-decoration:line-through;text-decoration-thickness:1px}
+
+  .cardtop{padding:12px 16px 0}
+  .checkline{
+    display:grid;
+    grid-template-columns:1.4rem var(--daycol, 7.6rem) minmax(0,1fr);
+    column-gap:10px;
+    align-items:start;
+    cursor:pointer;
+  }
+  .checkline input{
+    width:1.15rem;height:1.15rem;margin:3px 0 0;
+    accent-color:var(--accent);cursor:pointer;
+  }
+  .day{display:flex;flex-direction:column;line-height:1.2;white-space:nowrap}
+  .day .d{font-family:"Gabarito",sans-serif;font-weight:700;font-size:.97rem;letter-spacing:-.01em}
+  .day .n{color:var(--ink-faint);font-size:.8rem;font-variant-numeric:tabular-nums;margin-top:1px}
+  .opdracht{
+    font-family:"Gabarito",sans-serif;font-weight:700;font-size:1.02rem;
+    letter-spacing:-.01em;line-height:1.25;color:var(--accent);
+    min-width:0;
+  }
+
+  .body{padding:8px 16px 16px 16px;display:flex;flex-direction:column;gap:8px}
+  .checkline + .body, .cardtop + .body{padding-left:16px}
+  .body p{margin:0}
+  .links{margin:2px 0 0;padding-left:1.15em;display:flex;flex-direction:column;gap:4px}
+  .links li::marker{color:var(--accent)}
+
+  .todaymark{
+    display:none;
+    font-family:"Gabarito",sans-serif;font-size:.73rem;font-weight:700;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+    margin:0 16px 0;
+  }
+  .daycard.today .todaymark{display:block;padding:0 0 6px calc(1.4rem + 10px)}
+
+  footer{
+    color:var(--ink-faint);font-size:.85rem;border-top:1px solid var(--line);
+    padding-top:15px;display:flex;flex-direction:column;gap:6px;
+  }
+
+  @media (max-width:420px){
+    body{font-size:16px}
+    h1{font-size:1.75rem}
+    .wrap{gap:24px;padding-inline:14px}
+    .print{padding:14px 16px}
+    .checkline{grid-template-columns:1.25rem 6.3rem minmax(0,1fr);column-gap:8px}
+    .day .d{font-size:.9rem}
+    .cardtop{padding:10px 14px 0}
+    .body{padding:8px 14px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Advent Eli <span class="heart">✦</span></h1>
+    <p class="sub">Samen met Eli aftellen naar Kerstmis, van 29 november tot 25 december 2026.</p>
+  </header>
+
+  <section class="print" id="afdrukken">
+    <p class="eyebrow">Afdrukken</p>
+    <h2>Voor je begint</h2>
+    <p>Druk dit best af op zaterdag 28 november, zodat de kalender klaarhangt als de Advent begint.</p>
+    <ul>
+      <li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/adventskalender2026.pdf" target="_blank" rel="noopener">De adventskalender</a> (3 bladzijden A4). Hang blad 1 op een vaste plek, bijvoorbeeld op de koelkast. Blad 2 en 3 zijn de uitleg voor Scott en Kim. Op blad 1 kleurt Eli het stalletje onderaan en elke dag het wolkje van de opdracht.</li>
+      <li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/kerststalletje-en-figuurtjes-adventskalender2026_0.pdf" target="_blank" rel="noopener">Het stalletje en de figuurtjes</a> (2 bladzijden A4). Blad 1 heeft de figuurtjes, blad 2 het sjabloon van het stalletje en de ster. Eli kleurt ze later, dag per dag, vanaf 9 december. Knip ze nu nog niet uit. Zit er steviger papier in huis, druk deze twee bladen daarop af.</li>
+      <li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/pannenkoeken.pdf" target="_blank" rel="noopener">Het pannenkoekenrecept</a> voor maandag 7 december. Dat mag je ook die dag zelf openen.</li>
+    </ul>
+    <p>Klaarleggen: kleurpotloden of stiften, later een schaar en kleefband. De parochie spreekt van zes tekeningen; op het blad staan ook een schaap en de ster, die komen vanzelf mee.</p>
+  </section>
+
+  <section class="days">
+    <div class="dayshead"><h2>Elke dag een opdracht</h2><span class="range">29 november tot 25 december</span></div>
+    <article class="daycard we" id="dag-2026-11-29" data-date="2026-11-29">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-11-29" aria-label="Opdracht van zondag 29 november afgevinkt">
+      <span class="day"><span class="d">zondag</span><span class="n">29 november</span></span>
+      <span class="opdracht">Adventskaarsen</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Waarom worden elke zondag van de advent kaarsen aangestoken?</p><p>Er zijn vier adventskaarsen. Elke zondag komt er een kaars bij, zodat er meer licht is. Licht overwint het donker, en zo tellen we af naar de komst van Jezus, het Licht.</p><p>Vandaag begint de Advent. Steek samen met Eli de eerste kaars aan als jullie een adventskrans of vier kaarsen in huis hebben. Anders volstaat één kaars of een lampje, en even uitleggen dat er de komende weken telkens meer licht bij komt.</p><p>Een kwartiertje is genoeg: Eli mag (helpen) aansteken, jullie vertellen het in eenvoudige woorden, en kleur daarna het wolkje van 29/11 op de adventskalender.</p><p>Voorbereiden: blad 1 van de adventskalender moet afgedrukt zijn, kleurpotloden bij de hand.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/adventskalender2026.pdf" target="_blank" rel="noopener">Adventskalender</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-11-30" data-date="2026-11-30">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-11-30" aria-label="Opdracht van maandag 30 november afgevinkt">
+      <span class="day"><span class="d">maandag</span><span class="n">30 november</span></span>
+      <span class="opdracht">Kleur mij in</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Kleur samen met Eli het kerststalletje onderaan de adventskalender in. Vanaf vandaag kleurt zij ook elke dag het wolkje van de opdracht.</p><p>Zet de kalender op tafel, laat Eli de kleuren kiezen, en kleur zelf een stukje mee. In tien tot vijftien minuten is het stalletje mooi genoeg; de rest mag later nog.</p><p>Voorbereiden: blad 1 van de adventskalender en kleurpotloden of stiften.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/adventskalender2026.pdf" target="_blank" rel="noopener">Adventskalender</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-12-01" data-date="2026-12-01">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-01" aria-label="Opdracht van dinsdag 1 december afgevinkt">
+      <span class="day"><span class="d">dinsdag</span><span class="n">1 december</span></span>
+      <span class="opdracht">Complimentje geven</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Eli geeft vandaag een complimentje aan iemand in haar omgeving, of aan iedereen die ze leuk vindt. Zelf een complimentje geven is net zo leuk als er een krijgen.</p><p>Oefen eerst even samen: wat vindt Eli fijn aan Scott, Kim, een vriendje of de juf? Help haar het in een korte zin te zeggen, en laat haar het daarna zelf doen. Dat kan ’s ochtends voor school of ’s avonds thuis, in vijf tot tien minuten.</p><p>Kleur daarna het wolkje van 1/12 op de adventskalender.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-02" data-date="2026-12-02">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-02" aria-label="Opdracht van woensdag 2 december afgevinkt">
+      <span class="day"><span class="d">woensdag</span><span class="n">2 december</span></span>
+      <span class="opdracht">Opruimdag</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Opruimdag: Eli helpt mama of papa, bijvoorbeeld door haar speelgoed op te ruimen, of door de tafel te dekken of afruimen.</p><p>Kies één klein, duidelijk klusje dat in tien tot vijftien minuten klaar is, en doe het samen. Daarna het wolkje van 2/12 kleuren.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-03" data-date="2026-12-03">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-03" aria-label="Opdracht van donderdag 3 december afgevinkt">
+      <span class="day"><span class="d">donderdag</span><span class="n">3 december</span></span>
+      <span class="opdracht">Dieren in de kerststal</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Raadspelletje: welke dieren staan in de kerststal? Laat Eli eerst zelf raden. Het antwoord van de parochie is: een os, een ezel en enkele schapen.</p><p>Jullie mogen naar het stalletje op de adventskalender kijken als geheugensteuntje. Daarna het wolkje van 3/12 kleuren.</p><p>Op de knutselplaat zit ook een schaap; dat komt later nog aan de beurt, er is geen aparte kleurdag voor voorzien.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/kerststalletje-en-figuurtjes-adventskalender2026_0.pdf" target="_blank" rel="noopener">Stalletje en figuurtjes</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-12-04" data-date="2026-12-04">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-04" aria-label="Opdracht van vrijdag 4 december afgevinkt">
+      <span class="day"><span class="d">vrijdag</span><span class="n">4 december</span></span>
+      <span class="opdracht">Groepsknuffel</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Doe vandaag een groepsknuffel: pak elkaar eens goed vast. Scott, Kim en Eli samen, of wie er thuis is.</p><p>Een minuutje knuffelen is al genoeg. Daarna het wolkje van 4/12 kleuren.</p>
+    
+  </div>
+</article><article class="daycard we" id="dag-2026-12-05" data-date="2026-12-05">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-05" aria-label="Opdracht van zaterdag 5 december afgevinkt">
+      <span class="day"><span class="d">zaterdag</span><span class="n">5 december</span></span>
+      <span class="opdracht">Wat maakt jou gelukkig?</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Vraag aan Eli: wat maakt jou gelukkig? Luister naar haar antwoord, en vertel eventueel ook wat jullie gelukkig maakt.</p><p>Houd het luchtig: vijf tot tien minuten aan tafel of in de zetel is genoeg. Daarna het wolkje van 5/12 kleuren.</p>
+    
+  </div>
+</article><article class="daycard we" id="dag-2026-12-06" data-date="2026-12-06">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-06" aria-label="Opdracht van zondag 6 december afgevinkt">
+      <span class="day"><span class="d">zondag</span><span class="n">6 december</span></span>
+      <span class="opdracht">Dansen op een sinterklaasliedje</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Sinterklaas is jarig vandaag, hoera! Schud samen de beentjes los en dans met Eli op het sinterklaasliedje van de parochie.</p><p>Het filmpje op de pagina is «Sinterklaas laat ons dansen in alle talen». Zet het op de televisie of de tablet, dans een keer of twee mee, en kleur daarna het wolkje van 6/12. Tien tot vijftien minuten is ruim voldoende.</p>
+    <ul class="links"><li><a href="https://www.youtube.com/embed/BHJY7pgFJNM?autoplay=0&amp;start=0&amp;rel=0" target="_blank" rel="noopener">Dansfilmpje: Sinterklaas laat ons dansen in alle talen</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-12-07" data-date="2026-12-07">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-07" aria-label="Opdracht van maandag 7 december afgevinkt">
+      <span class="day"><span class="d">maandag</span><span class="n">7 december</span></span>
+      <span class="opdracht">Pannenkoeken bakken</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Kookactiviteit: bak samen iets. De parochie stelt pannenkoeken voor; koekjes mogen ook.</p><p>Recept van de parochie, voor een kom beslag: 250 g zelfrijzende bloem, 2 soeplepels fijne suiker, 2 eieren en ½ liter melk.</p><p>Meng de bloem en de suiker droog. Roer de melk erbij, voeg de eieren toe en meng het goed. Bak de pannenkoeken meteen.</p><p>Laat Eli helpen afwegen, roeren en eventueel omscheppen, met toezicht bij het vuur. Reken een kwartier voorbereiding en daarna bakken. Ingrediënten best de avond voordien klaarzetten.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/pannenkoeken.pdf" target="_blank" rel="noopener">Recept pannenkoeken</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-12-08" data-date="2026-12-08">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-08" aria-label="Opdracht van dinsdag 8 december afgevinkt">
+      <span class="day"><span class="d">dinsdag</span><span class="n">8 december</span></span>
+      <span class="opdracht">Teken het gezin</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Eli maakt een tekening van het gezin. Geef haar een blad en kleurpotloden, en laat haar zelf kiezen wie erop komt en hoe. Jullie mogen ernaast zitten en eventueel ook tekenen.</p><p>Tien tot vijftien minuten is genoeg, daarna het wolkje van 8/12 kleuren.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-09" data-date="2026-12-09">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-09" aria-label="Opdracht van woensdag 9 december afgevinkt">
+      <span class="day"><span class="d">woensdag</span><span class="n">9 december</span></span>
+      <span class="opdracht">Kleur de ster in</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Vandaag begint het knutselwerk voor de kerststal. In de bijlage zitten de figuurtjes; Eli kleurt vandaag de ster in. Op vrijdag 19 december voegen jullie alles samen tot een stalletje.</p><p>Haal blad 2 van de knutselplaat erbij: daar staat de ster naast het stalletje. Alleen de ster inkleuren, nog niet uitknippen. Tien minuten is genoeg. Daarna het wolkje van 9/12 kleuren.</p><p>Voorbereiden: de afgedrukte knutselplaat en kleurpotloden.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/kerststalletje-en-figuurtjes-adventskalender2026_0.pdf" target="_blank" rel="noopener">Stalletje en figuurtjes</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-12-10" data-date="2026-12-10">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-10" aria-label="Opdracht van donderdag 10 december afgevinkt">
+      <span class="day"><span class="d">donderdag</span><span class="n">10 december</span></span>
+      <span class="opdracht">Kerstverhaal lezen</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Lees samen een kerstverhaal, met mama, papa, oma of opa. Kies een kort verhaal of prentenboek dat jullie in huis hebben, of dat oma of opa wil voorlezen.</p><p>De parochie noemt geen concreet boek. Een kwartiertje in de zetel is ideaal, daarna het wolkje van 10/12 kleuren.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-11" data-date="2026-12-11">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-11" aria-label="Opdracht van vrijdag 11 december afgevinkt">
+      <span class="day"><span class="d">vrijdag</span><span class="n">11 december</span></span>
+      <span class="opdracht">Kleur de os en de ezel in</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Eli kleurt vandaag de os en de ezel in, op blad 1 van de knutselplaat. Op dat blad staat ook een schaap; dat mag ze er gerust bij nemen, de parochie heeft daar geen aparte dag voor voorzien. Nog niet uitknippen.</p><p>Tien tot vijftien minuten, daarna het wolkje van 11/12 kleuren.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/kerststalletje-en-figuurtjes-adventskalender2026_0.pdf" target="_blank" rel="noopener">Stalletje en figuurtjes</a></li></ul>
+  </div>
+</article><article class="daycard we" id="dag-2026-12-12" data-date="2026-12-12">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-12" aria-label="Opdracht van zaterdag 12 december afgevinkt">
+      <span class="day"><span class="d">zaterdag</span><span class="n">12 december</span></span>
+      <span class="opdracht">Selfie met iemand die je graag ziet</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Maak samen met Eli een selfie met iemand die ze graag ziet. Die mag zo gek of mooi worden als zij zelf wil.</p><p>Een paar minuten poseren en lachen is genoeg. Kies samen de leukste foto, en kleur het wolkje van 12/12.</p>
+    
+  </div>
+</article><article class="daycard we" id="dag-2026-12-13" data-date="2026-12-13">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-13" aria-label="Opdracht van zondag 13 december afgevinkt">
+      <span class="day"><span class="d">zondag</span><span class="n">13 december</span></span>
+      <span class="opdracht">Kleur de kerstengel in</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Eli kleurt vandaag de kerstengel in, op blad 1 van de knutselplaat. Nog niet uitknippen.</p><p>Tien minuten is genoeg, daarna het wolkje van 13/12 kleuren.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/kerststalletje-en-figuurtjes-adventskalender2026_0.pdf" target="_blank" rel="noopener">Stalletje en figuurtjes</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-12-14" data-date="2026-12-14">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-14" aria-label="Opdracht van maandag 14 december afgevinkt">
+      <span class="day"><span class="d">maandag</span><span class="n">14 december</span></span>
+      <span class="opdracht">Kerstkaartje knutselen</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Schrijf of knutsel een kerstkaartje voor iemand die Eli leuk vindt. Dat mag een vriendje zijn, de juf, of iemand in de buurt.</p><p>Vouw een blad doormidden of gebruik een blanco kaart. Laat Eli tekenen en eventueel een korte groet schrijven of natekenen. Tien tot vijftien minuten, daarna het wolkje van 14/12 kleuren.</p><p>Voorbereiden: papier of een kaart, kleurpotloden, eventueel stickers die jullie al in huis hebben.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-15" data-date="2026-12-15">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-15" aria-label="Opdracht van dinsdag 15 december afgevinkt">
+      <span class="day"><span class="d">dinsdag</span><span class="n">15 december</span></span>
+      <span class="opdracht">Kleur Jozef en Maria in</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Eli kleurt vandaag Jozef en Maria in, op blad 1 van de knutselplaat. Nog niet uitknippen.</p><p>Tien tot vijftien minuten, daarna het wolkje van 15/12 kleuren.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/kerststalletje-en-figuurtjes-adventskalender2026_0.pdf" target="_blank" rel="noopener">Stalletje en figuurtjes</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-12-16" data-date="2026-12-16">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-16" aria-label="Opdracht van woensdag 16 december afgevinkt">
+      <span class="day"><span class="d">woensdag</span><span class="n">16 december</span></span>
+      <span class="opdracht">Kleur het kerststalletje in</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Eli kleurt vandaag het kerststalletje in: dat is het sjabloon op blad 2 van de knutselplaat, naast de ster die al gekleurd is. Nog niet uitknippen: dat komt op 19 december.</p><p>Een kwartiertje, daarna het wolkje van 16/12 kleuren.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/kerststalletje-en-figuurtjes-adventskalender2026_0.pdf" target="_blank" rel="noopener">Stalletje en figuurtjes</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-12-17" data-date="2026-12-17">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-17" aria-label="Opdracht van donderdag 17 december afgevinkt">
+      <span class="day"><span class="d">donderdag</span><span class="n">17 december</span></span>
+      <span class="opdracht">Kleur Jezus in</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>We zijn er bijna: Eli kleurt vandaag Jezus in, het kindje in de kribbe op blad 1 van de knutselplaat. Nog niet uitknippen.</p><p>Tien minuten, daarna het wolkje van 17/12 kleuren.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/kerststalletje-en-figuurtjes-adventskalender2026_0.pdf" target="_blank" rel="noopener">Stalletje en figuurtjes</a></li></ul>
+  </div>
+</article><article class="daycard" id="dag-2026-12-18" data-date="2026-12-18">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-18" aria-label="Opdracht van vrijdag 18 december afgevinkt">
+      <span class="day"><span class="d">vrijdag</span><span class="n">18 december</span></span>
+      <span class="opdracht">Filmpje over het kerstverhaal</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Kijk samen naar het filmpje over het kerstverhaal op de pagina van de parochie. De titel is «Het Kerstverhaal».</p><p>Zet het op de televisie of de tablet, blijf erbij zitten, en praat nadien kort na: wat heeft Eli gezien? Tien tot vijftien minuten, daarna het wolkje van 18/12 kleuren.</p>
+    <ul class="links"><li><a href="https://www.youtube.com/embed/lbadyrfFJf8?autoplay=0&amp;start=0&amp;rel=0" target="_blank" rel="noopener">Filmpje: Het Kerstverhaal</a></li></ul>
+  </div>
+</article><article class="daycard we" id="dag-2026-12-19" data-date="2026-12-19">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-19" aria-label="Opdracht van zaterdag 19 december afgevinkt">
+      <span class="day"><span class="d">zaterdag</span><span class="n">19 december</span></span>
+      <span class="opdracht">Kerststalletje maken</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Vandaag maken jullie het kerststalletje. Knip het sjabloon van het stalletje uit op de buitenste lijnen, vouw op de stippellijnen naar voor en kleef de kleppen aan elkaar met kleefband. Knip ook de gekleurde figuurtjes uit.</p><p>Kleef de ster en de engel op het dak, Maria, Jozef en Jezus in het midden, en de os en de ezel opzij. Het schaap mag ernaast.</p><p>Dit duurt iets langer dan de andere dagen: reken een kwartier tot twintig minuten, met hulp van Scott of Kim bij het knippen en vouwen. Als het stalletje staat, bidden jullie samen kort voor de kinderen die in oorlog leven, zoals de parochie vraagt.</p><p>Voorbereiden: de ingekleurde bladen, schaar en kleefband, eventueel lijm.</p>
+    <ul class="links"><li><a href="https://www.otheo.be/sites/default/files/media/files/2026-11/kerststalletje-en-figuurtjes-adventskalender2026_0.pdf" target="_blank" rel="noopener">Stalletje en figuurtjes</a></li></ul>
+  </div>
+</article><article class="daycard we" id="dag-2026-12-20" data-date="2026-12-20">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-20" aria-label="Opdracht van zondag 20 december afgevinkt">
+      <span class="day"><span class="d">zondag</span><span class="n">20 december</span></span>
+      <span class="opdracht">Samen een kerstfilm kijken</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Het is de laatste zondag voor Kerstmis: kijk samen naar een leuke kerstfilm. De parochie noemt geen concrete film, kies er zelf een die past bij Eli.</p><p>Een filmpje in de zetel is al genoeg, het hoeft geen hele avond te worden. Daarna het wolkje van 20/12 kleuren.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-21" data-date="2026-12-21">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-21" aria-label="Opdracht van maandag 21 december afgevinkt">
+      <span class="day"><span class="d">maandag</span><span class="n">21 december</span></span>
+      <span class="opdracht">Wandeling langs de kerstlichtjes</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Doe een wandeling langs de kerstlichtjes in de buurt. Trek jassen aan en loop een kort rondje: tien tot vijftien minuten is al fijn. Laat Eli zelf de mooiste lichtjes aanwijzen.</p><p>Kleur het wolkje van 21/12 eens thuis.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-22" data-date="2026-12-22">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-22" aria-label="Opdracht van dinsdag 22 december afgevinkt">
+      <span class="day"><span class="d">dinsdag</span><span class="n">22 december</span></span>
+      <span class="opdracht">Iemand helpen met een klusje</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Tijd voor een klusje: help iemand met een klein taakje. Kies iets dat Eli aankan, zoals iets aangeven, opruimen of helpen dekken, en doe het samen in tien minuten.</p><p>Daarna het wolkje van 22/12 kleuren.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-23" data-date="2026-12-23">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-23" aria-label="Opdracht van woensdag 23 december afgevinkt">
+      <span class="day"><span class="d">woensdag</span><span class="n">23 december</span></span>
+      <span class="opdracht">Waar is Jezus geboren?</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Vraag aan Eli: weet jij waar Jezus geboren is? Laat haar eerst zelf antwoorden. Helpen kan met het kerstverhaal dat jullie op 18 december bekeken, en met jullie eigen knutselstalletje: in Bethlehem, in een stal.</p><p>Vijf tot tien minuten is genoeg, daarna het wolkje van 23/12 kleuren.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-24" data-date="2026-12-24">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-24" aria-label="Opdracht van donderdag 24 december afgevinkt">
+      <span class="day"><span class="d">donderdag</span><span class="n">24 december</span></span>
+      <span class="opdracht">Knutsel een kerstboompje</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Knutsel samen een kerstboompje. De parochie geeft geen sjabloon, dus het mag eenvoudig: een boom tekenen en versieren, of een klein boompje van papier vouwen of knippen.</p><p>Tien tot vijftien minuten, met papier, schaar en kleurpotloden. Daarna het wolkje van 24/12 kleuren. Het is ook kerstavond, dus doe het wanneer het rustig past.</p>
+    
+  </div>
+</article><article class="daycard" id="dag-2026-12-25" data-date="2026-12-25">
+  <div class="cardtop">
+    <label class="checkline">
+      <input type="checkbox" data-date="2026-12-25" aria-label="Opdracht van vrijdag 25 december afgevinkt">
+      <span class="day"><span class="d">vrijdag</span><span class="n">25 december</span></span>
+      <span class="opdracht">Kerstmis</span>
+    </label>
+  </div>
+  <div class="body">
+    <p>Kerstmis! Jezus is geboren! Feest samen met Eli.</p><p>Kijk nog eens naar het stalletje dat jullie gemaakt hebben, kleur het laatste wolkje van 25/12, en vier de dag zoals het voor jullie fijn is.</p>
+    
+  </div>
+</article>
+  </section>
+
+  <footer>
+    <a href="index.html">Terug naar De week van Eli</a>
+    <span>Bron: <a href="https://www.otheo.be/index.php/parochie-oudenaarde/artikel/adventskalender" target="_blank" rel="noopener">adventskalender van de parochie Oudenaarde</a></span>
+  </footer>
+
+</div>
+<script>
+(function(){
+  var KEY = "advent-eli-2026";
+  function todayISO(){
+    return new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Brussels" });
+  }
+  function load(){
+    try { return JSON.parse(localStorage.getItem(KEY) || "{}") || {}; }
+    catch (e) { return {}; }
+  }
+  function save(state){
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+  var state = load();
+  var today = todayISO();
+  document.querySelectorAll(".daycard").forEach(function(card){
+    var d = card.getAttribute("data-date");
+    var box = card.querySelector('input[type="checkbox"]');
+    if (state[d]) {
+      box.checked = true;
+      card.classList.add("done");
+    }
+    box.addEventListener("change", function(){
+      if (box.checked) { state[d] = true; card.classList.add("done"); }
+      else { delete state[d]; card.classList.remove("done"); }
+      save(state);
+    });
+    if (d === today) {
+      card.classList.add("today");
+      var mark = document.createElement("p");
+      mark.className = "todaymark";
+      mark.textContent = "Vandaag";
+      card.querySelector(".cardtop").appendChild(mark);
+    }
+  });
+  var printBox = document.getElementById("afdrukken");
+  if (today <= "2026-11-28") {
+    printBox.classList.add("today");
+  }
+  var target = document.querySelector(".daycard.today") || (today <= "2026-11-28" ? printBox : null);
+  if (target) {
+    requestAnimationFrame(function(){ target.scrollIntoView({ behavior: "smooth", block: "start" }); });
+  }
+})();
+</script>
+</body>
+</html>
